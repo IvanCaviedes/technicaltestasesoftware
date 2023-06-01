@@ -1,0 +1,1 @@
+modelacion de los errores de los endpoints

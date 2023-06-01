@@ -1,0 +1,1 @@
+estructura de datos de la tabla y manejo de estos
