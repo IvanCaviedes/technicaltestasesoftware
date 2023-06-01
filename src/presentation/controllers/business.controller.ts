@@ -1,14 +1,40 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Body,
+  Query,
+  Param,
+} from '@nestjs/common';
+import { BusinessUseCases } from 'src/application/use-cases/BusinessUseCase';
+
 @Controller('api/business')
 export class BusinessController {
+  constructor(private readonly businessUseCases: BusinessUseCases) {}
+
   @Get()
-  allBusiness() {}
+  allBusiness(
+    @Query() query: { take?: string; skip?: string; keyword?: string },
+  ) {
+    return this.businessUseCases.allBusiness(query);
+  }
   @Get(':id')
-  businessById() {}
+  businessById() {
+    return this.businessUseCases.getOneBusinessByField('id_comercio', '1');
+  }
   @Post()
-  createBusiness() {}
+  createBusiness(@Body() business) {
+    return this.businessUseCases.createBusiness(business);
+  }
   @Patch(':id')
-  updateBusiness() {}
+  updateBusiness(@Body() business, @Param('id') idBusness: string) {
+    return this.businessUseCases.updataBusiness(idBusness, business);
+  }
+
   @Delete(':id')
-  deleteBusiness() {}
+  deleteBusiness(@Param('id') idBusness: string) {
+    return this.businessUseCases.deleteBusiness(idBusness);
+  }
 }
