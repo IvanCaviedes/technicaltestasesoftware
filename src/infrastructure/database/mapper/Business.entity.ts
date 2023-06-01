@@ -1,23 +1,13 @@
-import { EntitySchema } from 'typeorm';
-import { BusinessModel } from 'src/domain/models/Business';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-export const BusinessEntity = new EntitySchema<BusinessModel>({
-  name: 'BusinessModel',
-  tableName: 'comercios',
-  target: BusinessModel,
-  columns: {
-    id_comercio: {
-      type: Number,
-      primary: true,
-      generated: true,
-    },
-    nom_comercio: {
-      type: String,
-      nullable: false,
-    },
-    aforo_maximo: {
-      type: Number,
-      nullable: false,
-    },
-  },
-});
+@Entity()
+export class Comercios {
+  @PrimaryGeneratedColumn()
+  id_comercio: number;
+
+  @Column({ nullable: false })
+  nom_comercio: string;
+
+  @Column({ nullable: false })
+  aforo_maximo: number;
+}
