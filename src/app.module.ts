@@ -3,9 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from '../ormconfig';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { setEnvironment } from 'src/infrastructure/environments';
+import { BusinessModule } from './infrastructure/ioc/business.module';
 
 @Module({
   imports: [
+    BusinessModule,
+
     ConfigModule.forRoot({ envFilePath: setEnvironment(), isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
   ],
