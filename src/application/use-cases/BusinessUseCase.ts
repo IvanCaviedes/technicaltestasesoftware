@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CommonService } from 'src/domain/services/CommonService';
 import { Comercios } from 'src/infrastructure/database/mapper/Business.entity';
 import { BusinessModel } from 'src/domain/models/Business';
-import { Like, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
+import { PaginationResponseVM } from 'src/presentation/view-models/Common';
 
 @Injectable()
 export class BusinessUseCases {
@@ -13,7 +14,7 @@ export class BusinessUseCases {
     private readonly commonService: CommonService<BusinessModel>,
   ) {}
 
-  async allBusiness(query) {
+  async allBusiness(query): Promise<PaginationResponseVM<BusinessModel>> {
     const take = query.take || 10;
     const page = query.page || 1;
     const skip = (page - 1) * take;
@@ -28,7 +29,10 @@ export class BusinessUseCases {
     return this.commonService.paginateResponse(data, page, take);
   }
 
-  async getOneBusinessByField(field: string, value: string) {
+  async getOneBusinessByField(
+    field: string,
+    value: string,
+  ): Promise<BusinessModel> {
     let businessConsulted = await this.businessRepository.find({
       where: { [field]: value },
     });
@@ -41,19 +45,21 @@ export class BusinessUseCases {
     return businessConsulted[0];
   }
 
-  async createBusiness(bussines) {
-    return await this.businessRepository.save({
-      nom_comercio: bussines.nom_comercio,
-      aforo_maximo: bussines.aforo_maximo,
-    });
+  async createBusiness(bussines: BusinessModel): Promise<BusinessModel> {
+    return await this.businessRepository
+      .save(bussines)
+      .then((business) => business)
+      .catch((error) => {
+        throw new HttpException(error, HttpStatus.BAD_REQUEST);
+      });
   }
-  async updataBusiness(id, bussines) {
+  async updataBusiness(id, bussines: BusinessModel): Promise<BusinessModel> {
     let businessConsulted = await this.getOneBusinessByField('id_comercio', id);
     const updatedBusiness = Object.assign(businessConsulted, bussines);
     return this.businessRepository.save(updatedBusiness);
   }
 
-  deleteBusiness(id) {
-    return this.businessRepository.delete(id);
+  async deleteBusiness(id): Promise<DeleteResult> {
+    return await this.businessRepository.delete(id);
   }
 }

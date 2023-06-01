@@ -9,6 +9,14 @@ import {
   Param,
 } from '@nestjs/common';
 import { BusinessUseCases } from 'src/application/use-cases/BusinessUseCase';
+import { BusinessModel } from 'src/domain/models/Business';
+
+import {
+  CreateBusinessVM,
+  UpdateBusinessVM,
+} from 'src/presentation/view-models/Business';
+import { PaginationResponseVM } from '../view-models/Common';
+import { DeleteResult } from 'typeorm';
 
 @Controller('api/business')
 export class BusinessController {
@@ -17,24 +25,35 @@ export class BusinessController {
   @Get()
   allBusiness(
     @Query() query: { take?: string; skip?: string; keyword?: string },
-  ) {
+  ): Promise<PaginationResponseVM<BusinessModel>> {
     return this.businessUseCases.allBusiness(query);
   }
   @Get(':id')
-  businessById() {
-    return this.businessUseCases.getOneBusinessByField('id_comercio', '1');
+  businessById(@Param('id') idBusness: string): Promise<BusinessModel> {
+    return this.businessUseCases.getOneBusinessByField(
+      'id_comercio',
+      idBusness,
+    );
   }
   @Post()
-  createBusiness(@Body() business) {
-    return this.businessUseCases.createBusiness(business);
+  createBusiness(@Body() business: CreateBusinessVM): Promise<BusinessModel> {
+    return this.businessUseCases.createBusiness(
+      CreateBusinessVM.fromViewModel(business),
+    );
   }
   @Patch(':id')
-  updateBusiness(@Body() business, @Param('id') idBusness: string) {
-    return this.businessUseCases.updataBusiness(idBusness, business);
+  updateBusiness(
+    @Body() business: UpdateBusinessVM,
+    @Param('id') idBusness: string,
+  ): Promise<BusinessModel> {
+    return this.businessUseCases.updataBusiness(
+      idBusness,
+      UpdateBusinessVM.fromViewModel(business),
+    );
   }
 
   @Delete(':id')
-  deleteBusiness(@Param('id') idBusness: string) {
+  deleteBusiness(@Param('id') idBusness: string): Promise<DeleteResult> {
     return this.businessUseCases.deleteBusiness(idBusness);
   }
 }
