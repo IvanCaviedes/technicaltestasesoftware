@@ -22,6 +22,7 @@ export class BusinessUseCases {
 
     const data = await this.businessRepository.findAndCount({
       where: { nom_comercio: Like('%' + keyword + '%') },
+      relations: ['servicios'],
       take: take,
       skip: skip,
     });
@@ -53,7 +54,7 @@ export class BusinessUseCases {
         throw new HttpException(error, HttpStatus.BAD_REQUEST);
       });
   }
-  async updataBusiness(id, bussines: BusinessModel): Promise<BusinessModel> {
+  async updateBusiness(id, bussines: BusinessModel): Promise<BusinessModel> {
     let businessConsulted = await this.getOneBusinessByField('id_comercio', id);
     const updatedBusiness = Object.assign(businessConsulted, bussines);
     return this.businessRepository.save(updatedBusiness);
