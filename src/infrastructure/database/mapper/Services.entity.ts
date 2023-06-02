@@ -4,9 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 import { Comercios } from './Business.entity';
+import { Turnos } from './Turn.entity';
 @Entity()
 export class Servicios {
   @PrimaryGeneratedColumn()
@@ -27,4 +29,7 @@ export class Servicios {
 
   @Column({ nullable: false })
   duracion: number;
+
+  @OneToMany(() => Turnos, (turno) => turno.id_servicio)
+  turnos: Turnos[];
 }
