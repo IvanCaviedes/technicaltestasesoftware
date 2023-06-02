@@ -4,11 +4,6 @@ import { BusinessModel } from 'src/domain/models/Business';
 
 export class UpdateBusinessVM {
   @IsOptional()
-  @IsNumber()
-  @ApiProperty()
-  id_comercio?: number;
-
-  @IsOptional()
   @IsString()
   @ApiProperty()
   nom_comercio: string;

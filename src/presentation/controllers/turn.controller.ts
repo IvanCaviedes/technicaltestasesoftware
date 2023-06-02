@@ -23,7 +23,11 @@ import {
 import { TurnUseCases } from 'src/application/use-cases/TurnUseCase';
 import { TurnModel } from 'src/domain/models/Turn';
 
-import { PaginationResponseVM, QueryPaginationVM } from '../view-models/Common';
+import {
+  PaginationResponseVM,
+  ParamsAutoGenerateTurnVM,
+  QueryPaginationVM,
+} from '../view-models/Common';
 import { CreateTurnVM, UpdateTurnVM } from 'src/presentation/view-models/Turn';
 
 import { NotFoundError } from '../errors/NotFoundError';
@@ -48,6 +52,21 @@ export class TurnController {
     @Query() query: QueryPaginationVM,
   ): Promise<PaginationResponseVM<TurnModel>> {
     return this.turnUseCases.allTurns(query);
+  }
+
+  @Get('auto-generate-turn')
+  @ApiOperation({
+    summary: 'auto generate turn with stored procedure',
+  })
+  @ApiOkResponse({ description: 'created turns.', type: [TurnVM] })
+  @ApiUnprocessableEntityResponse({
+    description: 'Validation error while auto generating turn',
+    type: UnprocessableEntityError,
+  })
+  async generateTurns(
+    @Body() params: ParamsAutoGenerateTurnVM,
+  ): Promise<TurnModel[]> {
+    return await this.turnUseCases.generateTurn(params);
   }
 
   @Get(':id')

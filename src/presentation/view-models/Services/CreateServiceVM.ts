@@ -2,26 +2,26 @@ import { IsString, IsOptional, IsNumber, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ServicesModel } from 'src/domain/models/Services';
+import { TimeHourFormat } from '../CustomValidations/';
 
 export class CreateServiceVM {
-  @IsOptional()
-  @IsNumber()
-  @ApiProperty()
-  id_servicio?: number;
-
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
   nom_servicio: string;
 
   @IsNotEmpty()
-  @IsString()
-  @ApiProperty()
+  @TimeHourFormat()
+  @ApiProperty({
+    example: '00:00',
+  })
   hora_apertura: Date;
 
   @IsNotEmpty()
-  @IsString()
-  @ApiProperty()
+  @TimeHourFormat()
+  @ApiProperty({
+    example: '00:00',
+  })
   hora_cierre: Date;
 
   @IsNotEmpty()

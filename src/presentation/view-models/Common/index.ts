@@ -1,2 +1,3 @@
 export * from './PaginationResponseVM';
-export * from './queryPaginationVM';
+export * from './QueryPaginationVM';
+export * from './ParamsAutoGenerateTurnVM';
