@@ -48,7 +48,7 @@ export class TurnController {
     description: 'All Services fetched.',
     type: [PaginationResponseVM<TurnModel>],
   })
-  allServices(
+  allSTurn(
     @Query() query: QueryPaginationVM,
   ): Promise<PaginationResponseVM<TurnModel>> {
     return this.turnUseCases.allTurns(query);
@@ -88,7 +88,7 @@ export class TurnController {
       'id_servicio',
       idTurn,
     );
-    return TurnVM.fromViewModel(turnRespomse);
+    return TurnVM.toViewModel(turnRespomse);
   }
 
   @Post(':idService')
@@ -104,7 +104,7 @@ export class TurnController {
     description: 'Validation error while creating services',
     type: UnprocessableEntityError,
   })
-  async createService(
+  async createTurn(
     @Body() turn: CreateTurnVM,
     @Param('idService') idService: string,
   ): Promise<TurnVM> {
@@ -112,7 +112,7 @@ export class TurnController {
       CreateTurnVM.fromViewModel(turn),
       idService,
     );
-    return TurnVM.fromViewModel(turnRespomse);
+    return TurnVM.toViewModel(turnRespomse);
   }
 
   @Patch(':id')
@@ -128,7 +128,7 @@ export class TurnController {
     description: 'Validation error while updating services',
     type: UnprocessableEntityError,
   })
-  async updateService(
+  async updateTurn(
     @Body() turn: UpdateTurnVM,
     @Param('id') idTurn: string,
   ): Promise<TurnVM> {
@@ -136,7 +136,7 @@ export class TurnController {
       idTurn,
       UpdateTurnVM.fromViewModel(turn),
     );
-    return TurnVM.fromViewModel(turnRespomse);
+    return TurnVM.toViewModel(turnRespomse);
   }
 
   @Delete(':id')
@@ -155,6 +155,6 @@ export class TurnController {
   })
   async deleteTurn(@Param('id') idTurn: string): Promise<TurnVM> {
     const turnRespomse = await this.turnUseCases.deleteTurn(idTurn);
-    return TurnVM.fromViewModel(turnRespomse);
+    return TurnVM.toViewModel(turnRespomse);
   }
 }

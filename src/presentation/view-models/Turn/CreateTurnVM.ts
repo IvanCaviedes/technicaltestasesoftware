@@ -1,7 +1,7 @@
-import { IsOptional, IsNotEmpty, IsString, IsBoolean } from 'class-validator';
+import { IsOptional, IsNotEmpty, IsBoolean } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { TurnModel } from 'src/domain/models/Turn';
-import { DateFormatTimestamp, TimeHourFormat } from '../CustomValidations';
+import { DateFormatTimestamp, TimeHourFormat } from '../CustomValidations/';
 
 export class CreateTurnVM {
   @IsNotEmpty()
