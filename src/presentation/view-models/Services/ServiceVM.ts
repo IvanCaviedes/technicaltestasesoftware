@@ -6,10 +6,6 @@ import { BusinessModel } from 'src/domain/models/Business';
 export class ServiceVM {
   @Expose()
   @ApiProperty()
-  id_servicio?: number;
-
-  @Expose()
-  @ApiProperty()
   nom_servicio: string;
 
   @Expose()
