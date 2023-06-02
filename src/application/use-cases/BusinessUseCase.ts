@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CommonService } from 'src/domain/services/CommonService';
 import { Comercios } from 'src/infrastructure/database/mapper/Business.entity';
 import { BusinessModel } from 'src/domain/models/Business';
-import { DeleteResult, Like, Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { PaginationResponseVM } from 'src/presentation/view-models/Common';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class BusinessUseCases {
   constructor(
     @InjectRepository(Comercios)
     private businessRepository: Repository<Comercios>,
-    private readonly commonService: CommonService<BusinessModel>,
+    private readonly commonService: CommonService,
   ) {}
 
   async allBusiness(query): Promise<PaginationResponseVM<BusinessModel>> {
@@ -34,7 +34,8 @@ export class BusinessUseCases {
     field: string,
     value: string,
   ): Promise<BusinessModel> {
-    let businessConsulted = await this.businessRepository.find({
+    const businessConsulted = await this.businessRepository.find({
+      relations: ['servicios', 'servicios.turnos'],
       where: { [field]: value },
     });
     if (!businessConsulted.length) {
@@ -58,12 +59,17 @@ export class BusinessUseCases {
     id: string,
     bussines: BusinessModel,
   ): Promise<BusinessModel> {
-    let businessConsulted = await this.getOneBusinessByField('id_comercio', id);
+    const businessConsulted = await this.getOneBusinessByField(
+      'id_comercio',
+      id,
+    );
     const updatedBusiness = Object.assign(businessConsulted, bussines);
     return this.businessRepository.save(updatedBusiness);
   }
 
-  async deleteBusiness(id: string): Promise<DeleteResult> {
-    return await this.businessRepository.delete(id);
+  async deleteBusiness(id: string): Promise<BusinessModel> {
+    const business = await this.businessRepository.findBy({ id_comercio: +id });
+    await this.businessRepository.delete(id);
+    return business[0];
   }
 }

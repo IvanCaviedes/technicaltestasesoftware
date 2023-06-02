@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 @Injectable()
-export class CommonService<Entity> {
+export class CommonService {
   paginateResponse(data, page, limit) {
     const [result, total] = data;
     const lastPage = Math.ceil(total / limit);

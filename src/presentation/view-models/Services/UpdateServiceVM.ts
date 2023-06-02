@@ -1,26 +1,31 @@
 import { IsString, IsOptional, IsNumber } from 'class-validator';
 
 import { ServicesModel } from 'src/domain/models/Services';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class UpdateServiceVM {
   @IsOptional()
   @IsNumber()
+  @ApiProperty()
   id_servicio?: number;
 
   @IsOptional()
   @IsString()
+  @ApiProperty()
   nom_servicio: string;
 
   @IsOptional()
   @IsString()
+  @ApiProperty()
   hora_apertura: Date;
 
   @IsOptional()
   @IsString()
+  @ApiProperty()
   hora_cierre: Date;
 
   @IsOptional()
   @IsNumber()
+  @ApiProperty()
   duracion: number;
 
   @IsOptional()

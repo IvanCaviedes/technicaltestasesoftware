@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonService } from 'src/domain/services/CommonService';
 import { Turnos } from 'src/infrastructure/database/mapper/Turn.entity';
-import { DeleteResult, Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import {
   PaginationResponseVM,
   QueryPaginationVM,
@@ -15,8 +15,8 @@ export class TurnUseCases {
   constructor(
     @InjectRepository(Turnos)
     private turnRepository: Repository<Turnos>,
-    private readonly ServiceUseCases: ServiceUseCases,
-    private readonly commonService: CommonService<TurnModel>,
+    private readonly serviceUseCases: ServiceUseCases,
+    private readonly commonService: CommonService,
   ) {}
 
   async allTurns(
@@ -35,7 +35,7 @@ export class TurnUseCases {
   }
 
   async getOneTurnByField(field: string, value: string): Promise<TurnModel> {
-    let turnConsulted = await this.turnRepository.find({
+    const turnConsulted = await this.turnRepository.find({
       where: { [field]: value },
       relations: ['id_servicio'],
     });
@@ -52,7 +52,7 @@ export class TurnUseCases {
     if (!turn.estado) {
       turn.estado = false;
     }
-    let service = await this.ServiceUseCases.getOneServiceByField(
+    const service = await this.serviceUseCases.getOneServiceByField(
       'id_servicio',
       idService,
     );
@@ -68,18 +68,20 @@ export class TurnUseCases {
 
   async updateTurn(id: string, turn: TurnModel): Promise<TurnModel> {
     if (turn.id_servicios) {
-      let servicio = await this.ServiceUseCases.getOneServiceByField(
+      const servicio = await this.serviceUseCases.getOneServiceByField(
         'id_servicio',
         String(turn.id_servicios),
       );
       turn.id_servicio = servicio;
     }
-    let turnConsulted = await this.getOneTurnByField('id_turno', id);
+    const turnConsulted = await this.getOneTurnByField('id_turno', id);
     const updatedTurn = Object.assign(turnConsulted, turn);
     return this.turnRepository.save(updatedTurn);
   }
 
-  async deleteTurn(id: string): Promise<DeleteResult> {
-    return await this.turnRepository.delete(id);
+  async deleteTurn(id: string): Promise<TurnModel> {
+    const turnConsulted = await this.turnRepository.findBy({ id_turno: +id });
+    await this.turnRepository.delete(id);
+    return turnConsulted[0];
   }
 }

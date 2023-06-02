@@ -1,30 +1,26 @@
-import { IsOptional, IsString, IsBoolean } from 'class-validator';
-
-import { TurnModel } from 'src/domain/models/Turn';
+import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateTurnVM {
-  @IsOptional()
-  @IsString()
+import { TurnModel } from 'src/domain/models/Turn';
+
+export class TurnVM {
+  @Expose()
   @ApiProperty()
   fecha_turno: Date;
 
-  @IsOptional()
-  @IsString()
+  @Expose()
   @ApiProperty()
   hora_inicio: Date;
 
-  @IsOptional()
-  @IsString()
+  @Expose()
   @ApiProperty()
   hora_fin: Date;
 
-  @IsOptional()
-  @IsBoolean()
+  @Expose()
   @ApiProperty()
   estado?: boolean;
 
-  static fromViewModel(vm: UpdateTurnVM): TurnModel {
+  static fromViewModel(vm: TurnVM): TurnModel {
     return new TurnModel(
       vm.fecha_turno,
       vm.hora_inicio,
