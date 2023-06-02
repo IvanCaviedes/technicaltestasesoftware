@@ -29,7 +29,7 @@ export class ServiceUseCases {
 
     const data = await this.serviceRepository.findAndCount({
       where: { nom_servicio: Like('%' + keyword + '%') },
-      relations: ['id_comercio'],
+      relations: ['id_comercio', 'turnos'],
       take: take,
       skip: skip,
     });
@@ -73,7 +73,10 @@ export class ServiceUseCases {
       });
   }
 
-  async updataService(id, service: ServicesModel): Promise<ServicesModel> {
+  async updataService(
+    id: string,
+    service: ServicesModel,
+  ): Promise<ServicesModel> {
     if (service.id_comercios) {
       let comercio = await this.businessUseCases.getOneBusinessByField(
         'id_comercio',
@@ -86,7 +89,7 @@ export class ServiceUseCases {
     return this.serviceRepository.save(updatedService);
   }
 
-  async deleteService(id): Promise<DeleteResult> {
+  async deleteService(id: string): Promise<DeleteResult> {
     return await this.serviceRepository.delete(id);
   }
 }

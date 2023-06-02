@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServicesController } from 'src/presentation/controllers/services.controller';
-import { Servicios } from '../database/mapper/Services.entity';
-import { ServiceUseCases } from 'src/application/use-cases/ServiceUseCase';
+
 import { CommonService } from 'src/domain/services/CommonService';
+
+import { ServiceUseCases } from 'src/application/use-cases/ServiceUseCase';
 import { BusinessUseCases } from 'src/application/use-cases/BusinessUseCase';
+
+import { Servicios } from '../database/mapper/Services.entity';
 import { Comercios } from '../database/mapper/Business.entity';
 
 @Module({
