@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CommonService } from 'src/domain/services/CommonService';
 import { Servicios } from 'src/infrastructure/database/mapper/Services.entity';
 import { ServicesModel } from 'src/domain/models/Services';
-import { DeleteResult, Like, Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import {
   PaginationResponseVM,
   QueryPaginationVM,
@@ -16,7 +16,7 @@ export class ServiceUseCases {
     @InjectRepository(Servicios)
     private serviceRepository: Repository<Servicios>,
     private readonly businessUseCases: BusinessUseCases,
-    private readonly commonService: CommonService<ServicesModel>,
+    private readonly commonService: CommonService,
   ) {}
 
   async allServices(
@@ -41,7 +41,7 @@ export class ServiceUseCases {
     field: string,
     value: string,
   ): Promise<ServicesModel> {
-    let serviceConsulted = await this.serviceRepository.find({
+    const serviceConsulted = await this.serviceRepository.find({
       where: { [field]: value },
       relations: ['id_comercio'],
     });
@@ -58,7 +58,7 @@ export class ServiceUseCases {
     service: ServicesModel,
     idComercio: string,
   ): Promise<ServicesModel> {
-    let comercio = await this.businessUseCases.getOneBusinessByField(
+    const comercio = await this.businessUseCases.getOneBusinessByField(
       'id_comercio',
       idComercio,
     );
@@ -78,18 +78,20 @@ export class ServiceUseCases {
     service: ServicesModel,
   ): Promise<ServicesModel> {
     if (service.id_comercios) {
-      let comercio = await this.businessUseCases.getOneBusinessByField(
+      const comercio = await this.businessUseCases.getOneBusinessByField(
         'id_comercio',
         String(service.id_comercios),
       );
       service.id_comercio = comercio;
     }
-    let serviceConsulted = await this.getOneServiceByField('id_servicio', id);
+    const serviceConsulted = await this.getOneServiceByField('id_servicio', id);
     const updatedService = Object.assign(serviceConsulted, service);
     return this.serviceRepository.save(updatedService);
   }
 
-  async deleteService(id: string): Promise<DeleteResult> {
-    return await this.serviceRepository.delete(id);
+  async deleteService(id: string): Promise<ServicesModel> {
+    const service = await this.serviceRepository.findBy({ id_servicio: +id });
+    await this.serviceRepository.delete(id);
+    return service[0];
   }
 }
