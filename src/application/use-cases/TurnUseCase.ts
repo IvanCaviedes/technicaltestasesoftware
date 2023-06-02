@@ -5,6 +5,7 @@ import { Turnos } from 'src/infrastructure/database/mapper/Turn.entity';
 import { Repository } from 'typeorm';
 import {
   PaginationResponseVM,
+  ParamsAutoGenerateTurnVM,
   QueryPaginationVM,
 } from 'src/presentation/view-models/Common';
 import { ServiceUseCases } from './ServiceUseCase';
@@ -56,6 +57,7 @@ export class TurnUseCases {
       'id_servicio',
       idService,
     );
+    turn.fecha_turno = new Date(turn.fecha_turno);
     turn.id_servicio = service;
     turn.estado = false;
     return await this.turnRepository
@@ -76,6 +78,7 @@ export class TurnUseCases {
     }
     const turnConsulted = await this.getOneTurnByField('id_turno', id);
     const updatedTurn = Object.assign(turnConsulted, turn);
+    updatedTurn.fecha_turno = new Date(turn.fecha_turno);
     return this.turnRepository.save(updatedTurn);
   }
 
@@ -83,5 +86,12 @@ export class TurnUseCases {
     const turnConsulted = await this.turnRepository.findBy({ id_turno: +id });
     await this.turnRepository.delete(id);
     return turnConsulted[0];
+  }
+
+  async generateTurn(params: ParamsAutoGenerateTurnVM): Promise<TurnModel[]> {
+    const { fecha_fin, fecha_inicio, id_Service } = params;
+    return await this.turnRepository.query(
+      `GENERARTURNOS @FechaInicio='${fecha_inicio}', @FechaFin='${fecha_fin}', @IdServicio='${id_Service}'`,
+    );
   }
 }
