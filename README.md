@@ -1,15 +1,8 @@
 <a name="readme-top"></a>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Stargazers][stars-shield]][stars-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
   <h3 align="center">Technical Test Asesoftware</h3>
 
@@ -41,12 +34,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -61,11 +49,7 @@ There are many great README templates available on GitHub; however, I didn't fin
 Here's why:
 
 - Creating the table model in the SQL Server database.
-- Developing a stored procedure that receives the following input parameters:
-  a. Start date
-  b. End date
-  c. Service ID
-  The stored procedure should query the service with the given ID to retrieve the opening and closing hours, as well as the duration of the service (in minutes). Based on this information, it should generate daily appointment slots from the start date to the end date. The appointment slots should align with the service duration, with the first slot starting at the service opening hour and subsequent slots following consecutively until the service closing hour. All generated appointment slots will be stored in the "turnos" table. The stored procedure should return the generated appointment slots.
+- Developing a stored procedure that receives the following input parameters: a. Start date b. End date c. Service ID The stored procedure should query the service with the given ID to retrieve the opening and closing hours, as well as the duration of the service (in minutes). Based on this information, it should generate daily appointment slots from the start date to the end date. The appointment slots should align with the service duration, with the first slot starting at the service opening hour and subsequent slots following consecutively until the service closing hour. All generated appointment slots will be stored in the "turnos" table. The stored procedure should return the generated appointment slots.
 - Creating a REST API using Node.js, along with a service for creating appointment slots. This service should receive the specified parameters and communicate with the stored procedure to generate the appointment slots
 - Implementing business logic in the API to validate the correctness of parameters, such as invalid dates or incorrect ranges. The standard date format should be dd/mm/yyyy
 
@@ -73,15 +57,16 @@ Here's why:
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+The project has been created with the following technologies
 
-- [![Nestjs][Nest.js]][Next-url]
-- [![Typeorm][Typeorm]][Next-url]
-- [![Typeorm][Typeorm]][Next-url]
-- [![sqlServer][sqlServer]][Next-url]
-- [![sqlServer][sqlServer]][Next-url]
-- [![Jest][Jest]][Next-url]
+- [![Nest][Nest.js]][Next-url]
+- [![Jest][Jest.js]][Next-url]
+- [![SQLSERVER][SQL.Server]][Next-url]
 - [![Typescript][Typescript]][Next-url]
+- [![VSCODE][VSCODE]][Next-url]
+- [![ESLINT][ESLINT]][Next-url]
+- [![PRETIER][PRETIER]][Next-url]
+- [![GIT][GIT]][Next-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -89,61 +74,42 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
+- nodejs
+- sql server
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+follow the installation steps of the project
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/IvanCaviedes/technicaltestasesoftware
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+3. correr el codigo sql en sql server el archivo esta ubicado en database/asesoftwaredb.sql
+4. crear archivo .env como el de ejemplo con sus datos de conexion
+5. correr test
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+```js
+ npm run test
+```
 
-<!-- USAGE EXAMPLES -->
+6. construir proyecto para producion
 
-## Usage
+```js
+ npm run build
+```
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+7.Iniciar proyecto
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-  - [ ] Chinese
-  - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+```js
+ npm run start:prod
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -153,8 +119,7 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -164,38 +129,17 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- LICENSE -->
+## Usage
 
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+project screenshots [![Product Name Screen Shot][product-screenshot]](https://example.com) [![Product Name Screen Shot][product-screenshot2]]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTACT -->
 
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Project Link: [https://github.com/IvanCaviedes/technicaltestasesoftware](https://github.com/IvanCaviedes/technicaltestasesoftware)
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-- [Choose an Open Source License](https://choosealicense.com)
-- [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-- [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-- [Malven's Grid Cheatsheet](https://grid.malven.co/)
-- [Img Shields](https://shields.io)
-- [GitHub Pages](https://pages.github.com)
-- [Font Awesome](https://fontawesome.com)
-- [React Icons](https://react-icons.github.io/react-icons/search)
+linkedin : [https://www.linkedin.com/in/ivan-caviedes/](https://www.linkedin.com/in/ivan-caviedes/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -214,7 +158,10 @@ Use this space to list resources you find helpful and would like to give credit 
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/ivan-caviedes/
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: docs/swagger.png
+[product-screenshot2]: docs/Business.png
+[product-screenshot3]: docs/swagger.png
+[product-screenshot4]: docs/swagger.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
@@ -231,3 +178,11 @@ Use this space to list resources you find helpful and would like to give credit 
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com
+[Nest.js]: https://img.shields.io/badge/nest-20232A?style=for-the-badge&logo=nestjs&logoColor=E0234E
+[Jest.js]: https://img.shields.io/badge/Jest-323330?style=for-the-badge&logo=Jest&logoColor=white
+[SQL.Server]: https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white
+[Typescript]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+[VSCODE]: https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white
+[ESLINT]: https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white
+[PRETIER]: https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3
+[GIT]: https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white
